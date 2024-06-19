@@ -7,10 +7,25 @@ $data = mysqli_fetch_assoc($proses);
 if(isset($_POST['nama']) && $_POST['npm'] != "") {
     $nama = $_POST['nama'];
     $npm = $_POST['npm'];
-    $find = mysqli_query($conn, "SELECT * FROM mahasiswa WHERE nama_mahasiswa='$nama' ");
+
+    $arr = array();
+    for ($i = 0; $i < strlen($nama); $i++) {
+        array_push($arr, $nama[$i]);
+    }
+    $a = implode('%', $arr);
+
+    $find = mysqli_query($conn, "SELECT * FROM mahasiswa WHERE nama_mahasiswa LIKE '$a' AND id='$a'");
 }if($_POST['nama'] != "" && $_POST['npm'] == "") {
     $nama = $_POST['nama'];
-    $find = mysqli_query($conn, "SELECT * FROM mahasiswa WHERE nama_mahasiswa='$nama'");
+    $arr = array();
+    array_push($arr, '%');
+    for ($i = 0; $i < strlen($nama); $i++) {
+        array_push($arr, $nama[$i]);
+    }
+    $a = implode('%', $arr);
+    var_dump($a);
+
+    $find = mysqli_query($conn, "SELECT * FROM mahasiswa WHERE nama_mahasiswa LIKE '$a'");
 }elseif($_POST['npm'] != "" && $_POST['nama'] == ""){
     $npm = $_POST['npm'];
     $find = mysqli_query($conn, "SELECT * FROM mahasiswa WHERE id='$npm'");
